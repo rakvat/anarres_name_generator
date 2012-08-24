@@ -5,20 +5,28 @@
 #
 
 class NamesGenerator
- VOWELS = ['a', 'e', 'i', 'o', 'u']
- CONSONANTS = ('a'..'z').to_a - VOWELS
- COMBINED_CONSONANTS = ['sh', 'kv', 'gv'] 
- NON_VOWEL_SOUNDS = CONSONANTS + COMBINED_CONSONANTS
- 
- def self.generate_name
-   (NON_VOWEL_SOUNDS.sample + 
-    VOWELS.sample + 
-    NON_VOWEL_SOUNDS.sample + 
-    VOWELS.sample + 
-    NON_VOWEL_SOUNDS.sample).capitalize
-   #todo: check of name already given to living person
-   #todo: check if non-dictionary-word
- end
+
+  VOWELS = ['a', 'e', 'i', 'o', 'u']
+  CONSONANTS = ('a'..'z').to_a - VOWELS
+  CONSONANTS_TO_AVOID = ['c','h','j','q','w','x','y']
+  COMBINED_CONSONANTS = ['ch','gv','kv','sh'] 
+  COMBINED_CONSONANTS_FOR_PART = { :begin => ['sk','tr'], 
+                                   :middle => ['rd', 'rr', 'rz','ss'],
+                                   :end => ['ks']}
+  NON_VOWEL_SOUNDS = CONSONANTS - CONSONANTS_TO_AVOID + COMBINED_CONSONANTS
+  NON_VOWEL_SOUNDS_FOR_PART = {:begin => NON_VOWEL_SOUNDS + COMBINED_CONSONANTS_FOR_PART[:begin],
+                               :middle => NON_VOWEL_SOUNDS + COMBINED_CONSONANTS_FOR_PART[:middle],
+                               :end => NON_VOWEL_SOUNDS + COMBINED_CONSONANTS_FOR_PART[:end]}
+
+  def self.generate_name
+    (NON_VOWEL_SOUNDS_FOR_PART[:begin].sample + 
+      VOWELS.sample + 
+      NON_VOWEL_SOUNDS_FOR_PART[:middle].sample + 
+      VOWELS.sample + 
+      NON_VOWEL_SOUNDS_FOR_PART[:end].sample).capitalize
+    #todo: check of name already given to living person
+    #todo: check if non-dictionary-word
+  end
 end
 
 10.times do
