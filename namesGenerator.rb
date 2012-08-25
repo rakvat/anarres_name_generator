@@ -24,11 +24,19 @@ class NamesGenerator
       NON_VOWEL_SOUNDS_FOR_PART[:middle].sample + 
       VOWELS.sample + 
       NON_VOWEL_SOUNDS_FOR_PART[:end].sample).capitalize
+  end
+
+  def self.name
+    #names should be 5 or 6 letters long
+    begin
+      proposal = self.generate_name 
+    end until proposal.length == 5 || proposal.length == 6
     #todo: check of name already given to living person
     #todo: check if non-dictionary-word
+    proposal
   end
 end
 
 10.times do
-    puts NamesGenerator.generate_name
+    puts NamesGenerator.name
 end
